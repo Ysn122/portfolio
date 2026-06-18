@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>AYR. — Ahmed Yassine Romdhane</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -21,7 +21,7 @@
   --amber:#F5A623;
 }
 html{scroll-behavior:smooth}
-body{background:var(--ink);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:none}
+body{background:var(--ink);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:none;-webkit-tap-highlight-color:rgba(0,245,212,.12)}
 
 /* ── CURSOR ── */
 #cursor{position:fixed;width:12px;height:12px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
@@ -40,6 +40,11 @@ nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to b
 .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--cyan);transition:width .25s}
 .nav-links a:hover{color:var(--white)}
 .nav-links a:hover::after{width:100%}
+.nav-toggle{display:none;flex-direction:column;justify-content:center;gap:5px;width:44px;height:44px;padding:10px;background:transparent;border:1px solid rgba(242,240,235,.12);border-radius:8px;cursor:pointer;z-index:210}
+.nav-toggle span{display:block;width:100%;height:2px;background:var(--white);border-radius:2px;transition:transform .25s,opacity .25s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 /* ── HERO ── */
 #hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:120px 6vw 80px;gap:4rem;position:relative;overflow:hidden}
@@ -187,8 +192,77 @@ footer{background:var(--ink2);border-top:1px solid rgba(242,240,235,.05);padding
 #lb-close:hover{background:rgba(242,240,235,.2)}
 
 /* ── RESPONSIVE ── */
-@media(max-width:1100px){#about{grid-template-columns:1fr;gap:4rem}.orbit-wrap{width:320px;height:320px}.ring-3{width:300px;height:300px}.services-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:860px){#hero{grid-template-columns:1fr;text-align:center;padding-top:110px}.hero-desc,.hero-actions{margin-left:auto;margin-right:auto}.hero-actions{justify-content:center}.hero-visual{order:-1}.float-badge{display:none}.work-masonry{columns:2}.work-masonry.col2{columns:2}.services-grid{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr;max-width:360px}footer{flex-direction:column;gap:.8rem;text-align:center}}
+@media(max-width:1100px){
+  #about{grid-template-columns:1fr;gap:4rem}
+  .orbit-wrap{width:320px;height:320px}
+  .ring-3{width:300px;height:300px}
+  .services-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:860px){
+  #hero{grid-template-columns:1fr;text-align:center;padding:110px max(5vw,env(safe-area-inset-right)) 70px max(5vw,env(safe-area-inset-left));gap:2.5rem;min-height:auto}
+  .hero-desc,.hero-actions{margin-left:auto;margin-right:auto}
+  .hero-actions{justify-content:center}
+  .hero-visual{order:-1}
+  .photo-wrap{width:min(280px,72vw)}
+  .float-badge{display:none}
+  .work-masonry{columns:2}
+  .work-masonry.col2{columns:2}
+  .services-grid{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr;max-width:360px}
+  footer{flex-direction:column;gap:.8rem;text-align:center}
+  .nav-toggle{display:flex}
+  .nav-links{
+    position:fixed;inset:0;z-index:205;
+    flex-direction:column;justify-content:center;align-items:center;gap:2.2rem;
+    background:rgba(6,6,15,.97);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    opacity:0;visibility:hidden;pointer-events:none;
+    transition:opacity .3s,visibility .3s
+  }
+  .nav-links.open{opacity:1;visibility:visible;pointer-events:all}
+  .nav-links a{font-size:.9rem;letter-spacing:.18em}
+}
+@media(max-width:600px){
+  nav{padding:14px max(5vw,env(safe-area-inset-right)) 14px max(5vw,env(safe-area-inset-left));padding-top:max(14px,env(safe-area-inset-top))}
+  #hero{padding-top:96px;gap:2rem}
+  .hero-name{font-size:clamp(2.4rem,11vw,3.2rem)}
+  .hero-name .line3{-webkit-text-stroke:1px var(--cyan)}
+  .hero-desc{font-size:.9rem;max-width:100%}
+  .hero-tag{font-size:.65rem;padding:.35rem .85rem}
+  #about,#work,#services{padding:70px max(5vw,env(safe-area-inset-right)) 70px max(5vw,env(safe-area-inset-left))}
+  #contact{padding:80px max(5vw,env(safe-area-inset-right)) 80px max(5vw,env(safe-area-inset-left))}
+  .section-heading{font-size:clamp(1.75rem,7vw,2.4rem)}
+  .work-head{flex-direction:column;align-items:flex-start;gap:1.2rem;margin-bottom:2rem}
+  .filter-row{width:100%;overflow-x:auto;flex-wrap:nowrap;gap:.5rem;padding-bottom:.4rem;-webkit-overflow-scrolling:touch;scrollbar-width:none;mask-image:linear-gradient(to right,#000 92%,transparent)}
+  .filter-row::-webkit-scrollbar{display:none}
+  .filter-btn{flex-shrink:0;padding:.5rem 1rem;font-size:.68rem}
+  .work-masonry,.work-masonry.col2{columns:1;column-gap:0}
+  .video-card{margin-bottom:1rem}
+  .orbit-wrap{width:min(300px,88vw);height:min(300px,88vw);transform:scale(.88);transform-origin:center}
+  #about .reveal:last-child{overflow:hidden;width:100%}
+  .skew-div,.skew-div-rev{height:50px}
+  .contact-val{font-size:.78rem;word-break:break-word}
+  #lightbox{padding:max(1rem,env(safe-area-inset-top)) max(1rem,env(safe-area-inset-right)) max(1rem,env(safe-area-inset-bottom)) max(1rem,env(safe-area-inset-left))}
+  #lightbox iframe{width:94vw;border-radius:6px}
+  #lightbox.vertical iframe{width:min(320px,92vw);max-height:calc(100dvh - 5rem)}
+  #lb-close{top:max(1rem,env(safe-area-inset-top));right:max(1rem,env(safe-area-inset-right));width:40px;height:40px;font-size:1.2rem}
+  footer{padding:1.6rem max(5vw,env(safe-area-inset-right)) max(1.6rem,env(safe-area-inset-bottom)) max(5vw,env(safe-area-inset-left))}
+}
+@media(max-width:480px){
+  .hero-actions{flex-direction:column;width:100%;max-width:320px}
+  .hero-actions .btn-glow,.hero-actions .btn-ghost{width:100%;text-align:center;padding:1rem 1.5rem}
+  .btn-glow,.btn-ghost{min-height:48px;display:inline-flex;align-items:center;justify-content:center}
+  .svc{padding:1.6rem 1.3rem}
+  .contact-card{padding:1.6rem 1rem}
+}
+@media(hover:none),(pointer:coarse){
+  body{cursor:auto}
+  #cursor,#cursor-ring{display:none!important}
+  .video-card::after{opacity:.55;background:rgba(123,92,240,.6)}
+  .video-card:active::after{opacity:.9}
+  .video-card:hover{border-color:rgba(242,240,235,.06);transform:none}
+  .video-card:hover .card-thumb img{transform:none}
+  .pill-inner:hover,.svc:hover,.contact-card:hover,.btn-glow:hover,.btn-ghost:hover{transform:none}
+}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -206,7 +280,10 @@ footer{background:var(--ink2);border-top:1px solid rgba(242,240,235,.05);padding
 <!-- NAV -->
 <nav>
   <a class="nav-logo" href="#hero">AYR<span>.</span></a>
-  <ul class="nav-links">
+  <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
     <li><a href="#about">About</a></li>
     <li><a href="#work">Work</a></li>
     <li><a href="#services">Services</a></li>
@@ -574,13 +651,37 @@ footer{background:var(--ink2);border-top:1px solid rgba(242,240,235,.05);padding
 </footer>
 
 <script>
+// ── TOUCH / POINTER ──
+const isTouch=window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+// ── MOBILE NAV ──
+const navToggle=document.getElementById('nav-toggle');
+const navLinks=document.getElementById('nav-links');
+function closeNav(){
+  navLinks.classList.remove('open');
+  navToggle.classList.remove('open');
+  navToggle.setAttribute('aria-expanded','false');
+  navToggle.setAttribute('aria-label','Open menu');
+  document.body.style.overflow='';
+}
+navToggle.addEventListener('click',()=>{
+  const open=navLinks.classList.toggle('open');
+  navToggle.classList.toggle('open',open);
+  navToggle.setAttribute('aria-expanded',open);
+  navToggle.setAttribute('aria-label',open?'Close menu':'Open menu');
+  document.body.style.overflow=open?'hidden':'';
+});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeNav));
+
 // ── CURSOR ──
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
+const cur=document.getElementById('cursor');
+const ring=document.getElementById('cursor-ring');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
-function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
-animRing();
+if(!isTouch){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+  animRing();
+}
 
 // ── TYPEWRITER ──
 const roles=['After Effects Editor','Motion Designer','Long-Form Animator','Anime Edit Creator','Ads & Reels Editor'];
@@ -682,19 +783,21 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
 // ── MAGNETIC TILT on video cards ──
-document.querySelectorAll('.video-card').forEach(card=>{
-  card.addEventListener('mousemove',e=>{
-    const r=card.getBoundingClientRect();
-    const x=(e.clientX-r.left)/r.width-.5;
-    const y=(e.clientY-r.top)/r.height-.5;
-    card.style.transform=`scale(1.01) rotateY(${x*8}deg) rotateX(${-y*8}deg)`;
-    card.style.transition='transform .05s';
+if(!isTouch){
+  document.querySelectorAll('.video-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const r=card.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      card.style.transform=`scale(1.01) rotateY(${x*8}deg) rotateX(${-y*8}deg)`;
+      card.style.transition='transform .05s';
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform='';
+      card.style.transition='transform .4s ease';
+    });
   });
-  card.addEventListener('mouseleave',()=>{
-    card.style.transform='';
-    card.style.transition='transform .4s ease';
-  });
-});
+}
 </script>
 </body>
 </html>
