@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AYR. — Ahmed Yassine Romdhane</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#06060F;
+  --ink2:#0E0E1C;
+  --ink3:#161628;
+  --white:#F2F0EB;
+  --mute:#585878;
+  --violet:#7B5CF0;
+  --violet2:#9D7FF5;
+  --cyan:#00F5D4;
+  --cyan2:rgba(0,245,212,0.12);
+  --amber:#F5A623;
+}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--white);font-family:'Space Grotesk',sans-serif;overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ── */
+#cursor{position:fixed;width:12px;height:12px;border-radius:50%;background:var(--cyan);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .2s,height .2s,background .2s;mix-blend-mode:difference}
+#cursor-ring{position:fixed;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(0,245,212,0.4);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .12s ease,width .25s,height .25s,border-color .25s}
+body:has(a:hover) #cursor,body:has(button:hover) #cursor{width:20px;height:20px}
+body:has(a:hover) #cursor-ring,body:has(button:hover) #cursor-ring{width:56px;height:56px;border-color:rgba(0,245,212,0.7)}
+body:has(.video-card:hover) #cursor{width:56px;height:56px;background:var(--violet)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:24px 6vw;display:flex;justify-content:space-between;align-items:center}
+nav::before{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(6,6,15,0.9) 0%,transparent 100%);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:-1}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;letter-spacing:.06em;color:var(--white);text-decoration:none}
+.nav-logo span{color:var(--cyan)}
+.nav-links{display:flex;gap:2.4rem;list-style:none}
+.nav-links a{font-size:.75rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);text-decoration:none;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--cyan);transition:width .25s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:120px 6vw 80px;gap:4rem;position:relative;overflow:hidden}
+.hero-bg-lines{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg-lines svg{position:absolute;bottom:-100px;right:-100px;opacity:.06}
+.hero-glow-1{position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(123,92,240,.18) 0%,transparent 65%);top:50%;left:40%;transform:translate(-50%,-50%);pointer-events:none;animation:breathe 8s ease-in-out infinite alternate}
+.hero-glow-2{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,245,212,.08) 0%,transparent 65%);top:20%;left:60%;pointer-events:none;animation:breathe 6s ease-in-out infinite alternate-reverse}
+@keyframes breathe{from{transform:translate(-50%,-50%) scale(1)}to{transform:translate(-50%,-50%) scale(1.15)}}
+
+.hero-text{position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.8rem;border:1px solid rgba(0,245,212,.2);padding:.4rem 1rem;border-radius:100px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--cyan);animation:blink 1.2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+.hero-name{font-family:'Syne',sans-serif;font-size:clamp(3rem,6vw,5.8rem);font-weight:800;line-height:1.0;letter-spacing:-.03em;margin-bottom:.5rem}
+.hero-name .line2{color:var(--violet2)}
+.hero-name .line3{color:var(--cyan);-webkit-text-fill-color:transparent;-webkit-text-stroke:1.5px var(--cyan)}
+.hero-role{font-size:clamp(.9rem,1.5vw,1.1rem);color:var(--mute);margin-bottom:.4rem;min-height:1.6em;font-weight:300}
+.hero-role .typed{color:var(--white);font-weight:500}
+.hero-role .cursor-blink{display:inline-block;width:2px;height:1em;background:var(--cyan);vertical-align:middle;margin-left:2px;animation:blink .8s step-end infinite}
+.hero-desc{font-size:.95rem;color:var(--mute);line-height:1.8;max-width:400px;margin:1.6rem 0 2.4rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-glow{background:var(--violet);color:#fff;padding:.9rem 2.2rem;border-radius:6px;font-size:.82rem;font-weight:600;letter-spacing:.06em;text-decoration:none;position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,245,212,.25),transparent);opacity:0;transition:opacity .3s}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(123,92,240,.45)}
+.btn-glow:hover::before{opacity:1}
+.btn-ghost{border:1.5px solid rgba(242,240,235,.15);color:var(--white);padding:.9rem 2.2rem;border-radius:6px;font-size:.82rem;font-weight:500;letter-spacing:.06em;text-decoration:none;transition:border-color .25s,background .25s}
+.btn-ghost:hover{border-color:var(--cyan);background:var(--cyan2)}
+
+/* hero photo */
+.hero-visual{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:2rem}
+.photo-wrap{position:relative;width:clamp(266px,26vw,406px);aspect-ratio:3/4}
+.photo-wrap::before{content:'';position:absolute;inset:-3px;border-radius:14px;background:conic-gradient(var(--violet),var(--cyan),var(--violet));z-index:0;animation:spin-border 6s linear infinite}
+@keyframes spin-border{to{transform:rotate(360deg)}}
+.photo-inner{position:relative;z-index:1;width:100%;height:100%;border-radius:12px;background:var(--ink3);overflow:hidden;display:flex;align-items:center;justify-content:center}
+.photo-inner img{width:100%;height:100%;object-fit:cover;border-radius:12px}
+.photo-placeholder-icon{display:flex;flex-direction:column;align-items:center;gap:.8rem;color:var(--mute);opacity:.4}
+.photo-placeholder-icon svg{width:56px;height:56px}
+.photo-placeholder-icon span{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+/* floating badges */
+.float-badge{position:absolute;background:rgba(14,14,28,.9);border:1px solid rgba(123,92,240,.35);backdrop-filter:blur(8px);border-radius:10px;padding:.65rem 1.1rem;font-size:.75rem;font-weight:600;display:flex;align-items:center;gap:.5rem;white-space:nowrap;z-index:10}
+.float-badge.top-left{top:8%;left:-20%;animation:float1 4s ease-in-out infinite}
+.float-badge.bot-right{bottom:12%;right:-16%;animation:float2 5s ease-in-out infinite}
+.float-badge.mid-left{top:50%;left:-22%;transform:translateY(-50%);animation:float3 4.5s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+@keyframes float3{0%,100%{transform:translateY(-50%) translateX(0)}50%{transform:translateY(-50%) translateX(5px)}}
+.badge-dot{width:8px;height:8px;border-radius:50%}
+.dot-ae{background:#9c8bff}.dot-pr{background:#ea77ff}.dot-exp{background:var(--cyan)}
+
+/* ── SKEW DIVIDER ── */
+.skew-div{height:80px;background:var(--ink2);clip-path:polygon(0 0,100% 40%,100% 100%,0 100%);margin-top:-2px}
+.skew-div-rev{height:80px;background:var(--ink);clip-path:polygon(0 40%,100% 0,100% 100%,0 100%);margin-top:-2px}
+
+/* ── ABOUT / SKILLS ── */
+#about{background:var(--ink2);padding:100px 6vw;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.about-text .section-tag{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:1rem;display:block}
+.section-heading{font-family:'Syne',sans-serif;font-size:clamp(2rem,3.5vw,3rem);font-weight:800;line-height:1.08;letter-spacing:-.02em;margin-bottom:1.2rem}
+.section-sub{color:var(--mute);line-height:1.8;font-size:.95rem;margin-bottom:2rem}
+
+/* ORBIT */
+.orbit-wrap{position:relative;width:380px;height:380px;margin:0 auto}
+.orbit-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:80px;height:80px;border-radius:50%;background:var(--ink);border:2px solid rgba(123,92,240,.5);display:flex;align-items:center;justify-content:center;z-index:10;box-shadow:0 0 30px rgba(123,92,240,.3)}
+.orbit-center svg{width:42px;height:42px}
+.orbit-ring{position:absolute;top:50%;left:50%;border-radius:50%;border:1px dashed rgba(123,92,240,.18);transform:translate(-50%,-50%)}
+.ring-1{width:160px;height:160px}
+.ring-2{width:260px;height:260px}
+.ring-3{width:360px;height:360px}
+.orbit-pill{position:absolute;top:50%;left:50%;transform-origin:0 0}
+.pill-inner{background:var(--ink3);border:1px solid rgba(123,92,240,.3);border-radius:100px;padding:.38rem .9rem;font-size:.72rem;font-weight:600;letter-spacing:.04em;white-space:nowrap;color:var(--white);transition:background .2s,border-color .2s,transform .2s;cursor:default}
+.pill-inner:hover{background:rgba(123,92,240,.2);border-color:var(--violet);transform:scale(1.08)}
+.pill-inner.cyan-pill{border-color:rgba(0,245,212,.3);color:var(--cyan)}
+.pill-inner.cyan-pill:hover{background:var(--cyan2);border-color:var(--cyan)}
+
+/* ── WORK ── */
+#work{background:var(--ink);padding:100px 6vw}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
+.filter-row{display:flex;gap:.6rem;flex-wrap:wrap}
+.filter-btn{background:transparent;border:1px solid rgba(242,240,235,.1);color:var(--mute);padding:.45rem 1.1rem;border-radius:100px;font-family:'Space Grotesk',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .2s}
+.filter-btn.active,.filter-btn:hover{background:var(--violet);border-color:var(--violet);color:#fff}
+
+/* masonry */
+.work-masonry{columns:3;column-gap:1.2rem}
+.work-masonry.col2{columns:4}
+.video-card{break-inside:avoid;margin-bottom:1.2rem;background:var(--ink3);border-radius:10px;overflow:hidden;border:1px solid rgba(242,240,235,.06);cursor:pointer;position:relative;transition:border-color .3s}
+.video-card::after{content:'▶ Play';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:.85rem;font-weight:800;letter-spacing:.15em;color:#fff;background:rgba(123,92,240,.75);opacity:0;transition:opacity .25s;backdrop-filter:blur(2px)}
+.video-card:hover::after{opacity:1}
+.video-card:hover{border-color:rgba(123,92,240,.5);transform:scale(1.01)}
+.card-thumb{width:100%;display:block;background:var(--ink2);position:relative;overflow:hidden}
+.card-thumb.ratio-16-9{aspect-ratio:16/9}
+.card-thumb.ratio-9-16{aspect-ratio:9/16}
+.card-thumb.ratio-square{aspect-ratio:1}
+.card-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;z-index:1}
+.video-card:hover .card-thumb img{transform:scale(1.05)}
+.thumb-ph{width:100%;height:100%;position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;color:rgba(88,88,120,.5)}
+.thumb-ph svg{width:28px;height:28px}
+.thumb-ph span{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase}
+.thumb-grad{position:absolute;inset:0;background:linear-gradient(135deg,rgba(123,92,240,.1),transparent 60%);z-index:2;pointer-events:none}
+.card-body{padding:.9rem 1.1rem}
+.card-cat{font-size:.63rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--violet);margin-bottom:.25rem}
+.card-cat.cyan{color:var(--cyan)}
+.card-title{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;line-height:1.3;color:var(--white);margin-bottom:.2rem}
+.card-meta{font-size:.7rem;color:var(--mute)}
+.hidden-card{display:none}
+
+/* ── SERVICES ── */
+#services{background:var(--ink2);padding:100px 6vw}
+.services-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:3rem}
+.svc{background:var(--ink3);border:1px solid rgba(242,240,235,.06);border-radius:12px;padding:2rem 1.6rem;position:relative;overflow:hidden;transition:transform .3s,border-color .3s}
+.svc::before{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,rgba(123,92,240,.12) 0%,transparent 65%);transition:transform .4s}
+.svc:hover{transform:translateY(-5px);border-color:rgba(123,92,240,.4)}
+.svc:hover::before{transform:scale(1.6)}
+.svc-icon{width:48px;height:48px;border-radius:10px;background:rgba(123,92,240,.12);border:1px solid rgba(123,92,240,.25);display:flex;align-items:center;justify-content:center;margin-bottom:1.6rem}
+.svc-name{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:.6rem}
+.svc-desc{font-size:.8rem;color:var(--mute);line-height:1.7}
+.svc-num{position:absolute;top:1.4rem;right:1.6rem;font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:rgba(123,92,240,.08);line-height:1}
+
+/* ── CONTACT ── */
+#contact{background:var(--ink);padding:120px 6vw;text-align:center;position:relative;overflow:hidden}
+.contact-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(123,92,240,.12) 0%,transparent 65%);pointer-events:none}
+.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:800px;margin:3rem auto}
+.contact-card{background:var(--ink3);border:1px solid rgba(242,240,235,.07);border-radius:12px;padding:2rem 1.2rem;text-decoration:none;color:inherit;transition:transform .25s,border-color .25s,box-shadow .25s;display:flex;flex-direction:column;align-items:center;gap:.7rem;position:relative;overflow:hidden}
+.contact-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,245,212,.05),transparent 60%);opacity:0;transition:opacity .3s}
+.contact-card:hover{transform:translateY(-4px);border-color:rgba(0,245,212,.3);box-shadow:0 12px 40px rgba(0,245,212,.08)}
+.contact-card:hover::before{opacity:1}
+.contact-ico{width:52px;height:52px;border-radius:12px;background:var(--cyan2);border:1px solid rgba(0,245,212,.2);display:flex;align-items:center;justify-content:center}
+.contact-lbl{font-size:.68rem;color:var(--mute);text-transform:uppercase;letter-spacing:.1em}
+.contact-val{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;color:var(--white)}
+
+/* ── FOOTER ── */
+footer{background:var(--ink2);border-top:1px solid rgba(242,240,235,.05);padding:2rem 6vw;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.06em}
+.footer-logo span{color:var(--cyan)}
+.footer-copy{font-size:.75rem;color:var(--mute)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+/* ── LIGHTBOX ── */
+#lightbox{position:fixed;inset:0;background:rgba(6,6,15,.95);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(8px)}
+#lightbox.open{opacity:1;pointer-events:all}
+#lightbox iframe{width:min(900px,90vw);aspect-ratio:16/9;border:none;border-radius:8px}
+#lightbox.vertical iframe{width:min(420px,80vw);aspect-ratio:9/16}
+#lb-close{position:absolute;top:2rem;right:2rem;background:rgba(242,240,235,.1);border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--white);font-size:1.4rem;transition:background .2s}
+#lb-close:hover{background:rgba(242,240,235,.2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){#about{grid-template-columns:1fr;gap:4rem}.orbit-wrap{width:320px;height:320px}.ring-3{width:300px;height:300px}.services-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:860px){#hero{grid-template-columns:1fr;text-align:center;padding-top:110px}.hero-desc,.hero-actions{margin-left:auto;margin-right:auto}.hero-actions{justify-content:center}.hero-visual{order:-1}.float-badge{display:none}.work-masonry{columns:2}.work-masonry.col2{columns:2}.services-grid{grid-template-columns:1fr}.contact-grid{grid-template-columns:1fr;max-width:360px}footer{flex-direction:column;gap:.8rem;text-align:center}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <button id="lb-close" onclick="closeLightbox()" aria-label="Close">✕</button>
+  <iframe id="lb-frame" allowfullscreen></iframe>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">AYR<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-lines">
+    <svg viewBox="0 0 800 800" width="800" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <circle cx="400" cy="400" r="200" stroke="rgba(123,92,240,1)" stroke-width="1"/>
+      <circle cx="400" cy="400" r="310" stroke="rgba(0,245,212,1)" stroke-width="0.5"/>
+      <circle cx="400" cy="400" r="390" stroke="rgba(123,92,240,0.6)" stroke-width="0.7"/>
+    </svg>
+  </div>
+  <div class="hero-glow-1"></div>
+  <div class="hero-glow-2"></div>
+
+  <div class="hero-text reveal">
+    <div class="hero-tag">Available for projects</div>
+    <h1 class="hero-name">
+      Ahmed<br/>
+      <span class="line2">Yassine</span><br/>
+      <span class="line3">Romdhane</span>
+    </h1>
+    <p class="hero-role">
+      <span class="typed" id="typed-text"></span><span class="cursor-blink"></span>
+    </p>
+    <p class="hero-desc">
+      5+ years crafting motion that makes people stop scrolling. From brand ads to anime edits, long-form animation to viral reels — every frame is a decision.
+    </p>
+    <div class="hero-actions">
+      <a class="btn-glow" href="#work">See My Work</a>
+      <a class="btn-ghost" href="#contact">Let's Talk</a>
+    </div>
+  </div>
+
+  <div class="hero-visual reveal">
+    <div class="photo-wrap">
+      <div class="photo-inner">
+        <img src="ysn1.png" alt="Ahmed Yassine Romdhane">
+      </div>
+    </div>
+
+    <div class="float-badge top-left">
+      <span class="badge-dot dot-ae"></span> After Effects Expert
+    </div>
+    <div class="float-badge mid-left">
+      <span class="badge-dot dot-exp"></span> 4+ Years
+    </div>
+    <div class="float-badge bot-right">
+      <span class="badge-dot dot-pr"></span> 50+ Projects Done
+    </div>
+  </div>
+</section>
+
+<div class="skew-div"></div>
+
+<!-- ABOUT / SKILLS -->
+<section id="about">
+  <div class="about-text reveal">
+    <span class="section-tag">Who I Am</span>
+    <h2 class="section-heading">I don't just edit.<br/>I engineer <em style="font-style:normal;color:var(--cyan)">emotion.</em></h2>
+    <p class="section-sub">Started with anime edits at 15 — now I build motion systems for brands, creators, and storytellers who need their videos to actually hit. After Effects is my native language, motion is my obsession.</p>
+    <p class="section-sub">Based in Tunisia. Working globally. The timezone is a detail, the quality is not.</p>
+    <a class="btn-glow" href="#contact" style="display:inline-block;margin-top:.5rem">Work with me</a>
+  </div>
+
+  <div class="reveal" style="display:flex;align-items:center;justify-content:center">
+    <div class="orbit-wrap" id="orbit-wrap">
+      <!-- Rings -->
+      <div class="orbit-ring ring-1"></div>
+      <div class="orbit-ring ring-2"></div>
+      <div class="orbit-ring ring-3"></div>
+      <!-- Center AE logo -->
+      <div class="orbit-center">
+        <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="42" height="42" rx="8" fill="#9c8bff" fill-opacity=".15"/>
+          <text x="21" y="28" text-anchor="middle" font-family="'Syne',sans-serif" font-weight="800" font-size="16" fill="#9c8bff">Ae</text>
+        </svg>
+      </div>
+      <!-- Pills injected by JS -->
+    </div>
+  </div>
+</section>
+
+<div class="skew-div-rev"></div>
+
+<!-- WORK -->
+<section id="work">
+  <div class="work-head reveal">
+    <div>
+      <span class="section-tag" style="font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);display:block;margin-bottom:.6rem">Portfolio</span>
+      <h2 class="section-heading" style="margin-bottom:0">Selected Work</h2>
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn active" onclick="filterWork('all',this)">All</button>
+      <button class="filter-btn" onclick="filterWork('longform',this)">Long-Form</button>
+      <button class="filter-btn" onclick="filterWork('ads',this)">Ads</button>
+      <button class="filter-btn" onclick="filterWork('vertical',this)">Reels</button>
+      <button class="filter-btn" onclick="filterWork('anime',this)">Anime</button>
+      <button class="filter-btn" onclick="filterWork('motion',this)">Motion</button>
+    </div>
+  </div>
+
+  <div class="work-masonry reveal" id="work-grid">
+
+    <!-- Vertical Ads — Arabic Learning Society -->
+    <div class="video-card" data-cat="ads" onclick="openLightbox('https://drive.google.com/file/d/1CHy5nblXkn-iP1GBNXZa4dja4eGEeBJc/preview','v')">
+      <div class="card-thumb ratio-9-16">
+        <img src="https://drive.google.com/thumbnail?id=1CHy5nblXkn-iP1GBNXZa4dja4eGEeBJc&sz=w800" alt="Arabic Learning Society — Ad 01" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 10l6 4-6 4V10z" fill="currentColor" opacity=".4"/></svg><span>Ad</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">Vertical Ad</div>
+        <div class="card-title">Arabic Learning Society — Ad 01</div>
+        <div class="card-meta">After Effects · Brand Ad</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="ads" onclick="openLightbox('https://drive.google.com/file/d/1Ii0cAEFMse1XnBAf5jBDqAr1jDDCq57q/preview','v')">
+      <div class="card-thumb ratio-9-16">
+        <img src="https://drive.google.com/thumbnail?id=1Ii0cAEFMse1XnBAf5jBDqAr1jDDCq57q&sz=w800" alt="Arabic Learning Society — Ad 02" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 10l6 4-6 4V10z" fill="currentColor" opacity=".4"/></svg><span>Ad</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">Vertical Ad</div>
+        <div class="card-title">Arabic Learning Society — Ad 02</div>
+        <div class="card-meta">After Effects · Brand Ad</div>
+      </div>
+    </div>
+
+    <!-- Motion Graphics -->
+    <div class="video-card" data-cat="motion" onclick="openLightbox('https://drive.google.com/file/d/1IN8uvxJF75C8ZY7yNnYp8E0HBx4jf_bQ/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=1IN8uvxJF75C8ZY7yNnYp8E0HBx4jf_bQ&sz=w800" alt="Motion Graphics — 01" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.2"/><path d="M9 9h6c2 0 3 1 3 2.5S17 14 15 14H9V9zm0 5h7c2 0 3 1 3 2.7S18 19 16 19H9v-5z" fill="currentColor" opacity=".4"/></svg><span>Motion</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Motion Graphics</div>
+        <div class="card-title">Motion Graphics — 01</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="motion" onclick="openLightbox('https://drive.google.com/file/d/1AlToxrMKQr95SPvOX-6nYiR5oVBU1pXT/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=1AlToxrMKQr95SPvOX-6nYiR5oVBU1pXT&sz=w800" alt="Motion Graphics — 02" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.2"/><path d="M9 9h6c2 0 3 1 3 2.5S17 14 15 14H9V9zm0 5h7c2 0 3 1 3 2.7S18 19 16 19H9v-5z" fill="currentColor" opacity=".4"/></svg><span>Motion</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Motion Graphics</div>
+        <div class="card-title">Motion Graphics — 02</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="motion" onclick="openLightbox('https://drive.google.com/file/d/1z-5BN-KtTwL9EOya9HmLLKB3XukZmRB3/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=1z-5BN-KtTwL9EOya9HmLLKB3XukZmRB3&sz=w800" alt="Motion Graphics — 03" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.2"/><path d="M9 9h6c2 0 3 1 3 2.5S17 14 15 14H9V9zm0 5h7c2 0 3 1 3 2.7S18 19 16 19H9v-5z" fill="currentColor" opacity=".4"/></svg><span>Motion</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Motion Graphics</div>
+        <div class="card-title">Motion Graphics — 03</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="motion" onclick="openLightbox('https://drive.google.com/file/d/1JCIYvPoFosgR7Afx4h678tHITi49dhpe/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=1JCIYvPoFosgR7Afx4h678tHITi49dhpe&sz=w800" alt="Santé+" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><circle cx="14" cy="14" r="12" stroke="currentColor" stroke-width="1.2"/><path d="M9 9h6c2 0 3 1 3 2.5S17 14 15 14H9V9zm0 5h7c2 0 3 1 3 2.7S18 19 16 19H9v-5z" fill="currentColor" opacity=".4"/></svg><span>Motion</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Motion Graphics</div>
+        <div class="card-title">Santé+</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <!-- Long-Form -->
+    <div class="video-card" data-cat="longform" onclick="openLightbox('https://drive.google.com/file/d/15qZ__sOPZ08gstCpbaHuO9GaXVKfRe0e/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=15qZ__sOPZ08gstCpbaHuO9GaXVKfRe0e&sz=w800" alt="Long-Form Project" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><rect x="1" y="3" width="26" height="22" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M11 9l8 5-8 5V9z" fill="currentColor" opacity=".4"/></svg><span>Long-Form</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">Long-Form Animation</div>
+        <div class="card-title">Long-Form Project</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <!-- Anime Edits -->
+    <div class="video-card" data-cat="anime" onclick="openLightbox('https://drive.google.com/file/d/14T3RNQasKb_gVxcGvlVOTxm3uFV1UFmb/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=14T3RNQasKb_gVxcGvlVOTxm3uFV1UFmb&sz=w800" alt="Anime Edit — 01" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><rect x="1" y="3" width="26" height="22" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M11 9l8 5-8 5V9z" fill="currentColor" opacity=".4"/></svg><span>Anime</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">Anime Edit</div>
+        <div class="card-title">Anime Edit — 01</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="anime" onclick="openLightbox('https://drive.google.com/file/d/1fQ-r49yV6E9SiIgTq_qpqakMe-HMe5c_/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=1fQ-r49yV6E9SiIgTq_qpqakMe-HMe5c_&sz=w800" alt="Anime Edit — 02" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><rect x="1" y="3" width="26" height="22" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M11 9l8 5-8 5V9z" fill="currentColor" opacity=".4"/></svg><span>Anime</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">Anime Edit</div>
+        <div class="card-title">Anime Edit — 02</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="anime" onclick="openLightbox('https://drive.google.com/file/d/1fLyCTjYIjr7WdN5fWdlDn0UzWpD2G0uu/preview','h')">
+      <div class="card-thumb ratio-16-9">
+        <img src="https://drive.google.com/thumbnail?id=1fLyCTjYIjr7WdN5fWdlDn0UzWpD2G0uu&sz=w800" alt="Yuta Edit" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 28 28" fill="none"><rect x="1" y="3" width="26" height="22" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M11 9l8 5-8 5V9z" fill="currentColor" opacity=".4"/></svg><span>Anime</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat">Anime Edit</div>
+        <div class="card-title">Yuta Edit</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <!-- Reels -->
+    <div class="video-card" data-cat="vertical" onclick="openLightbox('https://drive.google.com/file/d/1OU2KfnJ_OD9aW9CpRDdeOJp8VP5oDJMO/preview','v')">
+      <div class="card-thumb ratio-9-16">
+        <img src="https://drive.google.com/thumbnail?id=1OU2KfnJ_OD9aW9CpRDdeOJp8VP5oDJMO&sz=w800" alt="Test" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 10l6 4-6 4V10z" fill="currentColor" opacity=".4"/></svg><span>Reel</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Reel</div>
+        <div class="card-title">Test</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="vertical" onclick="openLightbox('https://drive.google.com/file/d/1eW2Z_AcJTk7jXxhpm9I-OJuL4f1-sZ_8/preview','v')">
+      <div class="card-thumb ratio-9-16">
+        <img src="https://drive.google.com/thumbnail?id=1eW2Z_AcJTk7jXxhpm9I-OJuL4f1-sZ_8&sz=w800" alt="Comp 1 — Problem 4" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 10l6 4-6 4V10z" fill="currentColor" opacity=".4"/></svg><span>Reel</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Reel</div>
+        <div class="card-title">Comp 1 — Problem 4</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+    <div class="video-card" data-cat="vertical" onclick="openLightbox('https://drive.google.com/file/d/19FhffsL_EQSfFRn5mDjR7QICApPxxN08/preview','v')">
+      <div class="card-thumb ratio-9-16">
+        <img src="https://drive.google.com/thumbnail?id=19FhffsL_EQSfFRn5mDjR7QICApPxxN08&sz=w800" alt="Pre-Compress" loading="lazy" onerror="this.remove()">
+        <div class="thumb-ph"><svg viewBox="0 0 20 28" fill="none"><rect x="1" y="1" width="18" height="26" rx="3" stroke="currentColor" stroke-width="1.2"/><path d="M8 10l6 4-6 4V10z" fill="currentColor" opacity=".4"/></svg><span>Reel</span></div>
+        <div class="thumb-grad"></div>
+      </div>
+      <div class="card-body">
+        <div class="card-cat cyan">Reel</div>
+        <div class="card-title">Pre-Compress</div>
+        <div class="card-meta">After Effects</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="skew-div"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div style="text-align:center" class="reveal">
+    <span class="section-tag" style="font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem;display:block">What I Offer</span>
+    <h2 class="section-heading">Services</h2>
+    <p class="section-sub" style="max-width:520px;margin:0 auto">From concept to final export. I work fast, communicate clearly, and deliver quality that speaks before I do.</p>
+  </div>
+
+  <div class="services-grid">
+    <div class="svc reveal">
+      <div class="svc-num">01</div>
+      <div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="15" rx="2" stroke="#7B5CF0" stroke-width="1.5"/><path d="M8 9l7 3.5L8 16V9z" fill="#7B5CF0"/></svg></div>
+      <div class="svc-name">Motion Design</div>
+      <div class="svc-desc">Animated intros, kinetic typography, logo reveals, and custom motion graphics that make your brand move with intention.</div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">02</div>
+      <div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#7B5CF0" stroke-width="1.5"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" stroke="#7B5CF0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="svc-name">Talking-Head Editing</div>
+      <div class="svc-desc">Clean cuts, dynamic B-roll, captions, sound design-ready mixes. Viewer retention is the metric, not just the runtime.</div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">03</div>
+      <div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 12h18M3 6h18M3 18h12" stroke="#7B5CF0" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="svc-name">Long-Form Animation</div>
+      <div class="svc-desc">Full-length YouTube animations with character movement, scene transitions, and pacing that holds attention for 20+ minutes.</div>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-num">04</div>
+      <div class="svc-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2" stroke="#7B5CF0" stroke-width="1.5"/><path d="M10 7l4 2.5L10 12V7z" fill="#7B5CF0" opacity=".7"/></svg></div>
+      <div class="svc-name">Reels & Short-Form</div>
+      <div class="svc-desc">Vertical edits engineered for the algorithm — punchy pacing, scroll-stopping hooks, and effects that earn replays.</div>
+    </div>
+  </div>
+</section>
+
+<div class="skew-div-rev"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-glow"></div>
+  <div class="reveal" style="position:relative;z-index:2">
+    <span class="section-tag" style="font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);margin-bottom:.8rem;display:block">Get In Touch</span>
+    <h2 class="section-heading">Let's make something<br/><span style="color:var(--cyan)">unforgettable.</span></h2>
+    <p class="section-sub" style="max-width:480px;margin:0 auto 0">Have a project, a collab, or just a question? Pick your channel — I respond within 24h.</p>
+
+    <div class="contact-grid">
+      <a class="contact-card" href="mailto:ghostdm637@gmail.com">
+        <div class="contact-ico">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="#00F5D4" stroke-width="1.5"/><path d="M2 8l10 6 10-6" stroke="#00F5D4" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <span class="contact-lbl">Email</span>
+        <span class="contact-val">ghostdm637@gmail.com</span>
+      </a>
+      <a class="contact-card" href="https://instagram.com/ysn_rm1" target="_blank" rel="noopener">
+        <div class="contact-ico">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="6" stroke="#00F5D4" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="#00F5D4" stroke-width="1.5"/><circle cx="17.5" cy="6.5" r="1.5" fill="#00F5D4"/></svg>
+        </div>
+        <span class="contact-lbl">Instagram</span>
+        <span class="contact-val">@ysn_rm1</span>
+      </a>
+      <a class="contact-card" href="https://www.upwork.com/freelancers/~0194d605a6c0532b1d" target="_blank" rel="noopener">
+        <div class="contact-ico">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="#00F5D4" stroke-width="1.5"/><path d="M8 7V6a4 4 0 018 0v1" stroke="#00F5D4" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        <span class="contact-lbl">Upwork</span>
+        <span class="contact-val">Ahmed Yassine</span>
+      </a>
+    </div>
+
+    <a class="btn-glow" href="https://mail.google.com/mail/?view=cm&fs=1&to=ghostdm637@gmail.com" target="_blank" rel="noopener" style="display:inline-block;margin-top:2rem">Send a Message →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">AYR<span>.</span></div>
+  <div class="footer-copy">© 2025 Ahmed Yassine Romdhane — Motion never stops.</div>
+</footer>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}
+animRing();
+
+// ── TYPEWRITER ──
+const roles=['After Effects Editor','Motion Designer','Long-Form Animator','Anime Edit Creator','Ads & Reels Editor'];
+let ri=0,ci=0,deleting=false;
+const typed=document.getElementById('typed-text');
+function typeLoop(){
+  const word=roles[ri];
+  if(!deleting){
+    typed.textContent=word.slice(0,ci+1);
+    ci++;
+    if(ci===word.length){deleting=true;setTimeout(typeLoop,1800);return}
+  }else{
+    typed.textContent=word.slice(0,ci-1);
+    ci--;
+    if(ci===0){deleting=false;ri=(ri+1)%roles.length}
+  }
+  setTimeout(typeLoop,deleting?55:95);
+}
+typeLoop();
+
+// ── ORBIT ──
+const skills=[
+  {label:'After Effects',r:1,angle:0,cls:''},
+  {label:'Motion Design',r:1,angle:180,cls:'cyan-pill'},
+  {label:'Premiere Pro',r:2,angle:60,cls:''},
+  {label:'Talking Head',r:2,angle:210,cls:'cyan-pill'},
+  {label:'Color Grading',r:2,angle:310,cls:''},
+  {label:'Long-Form Anim.',r:3,angle:20,cls:'cyan-pill'},
+  {label:'Anime Edits',r:3,angle:110,cls:''},
+  {label:'Reels & TikTok',r:3,angle:200,cls:'cyan-pill'},
+  {label:'Photoshop',r:3,angle:290,cls:''},
+  {label:'Sound Design',r:3,angle:340,cls:'cyan-pill'},
+];
+const radii={1:80,2:130,3:180};
+const wrap=document.getElementById('orbit-wrap');
+const cx=190,cy=190;
+skills.forEach(s=>{
+  const rad=radii[s.r];
+  const a=s.angle*(Math.PI/180);
+  const x=cx+rad*Math.cos(a);
+  const y=cy+rad*Math.sin(a);
+  const el=document.createElement('div');
+  el.className='orbit-pill';
+  el.style.cssText=`left:${cx}px;top:${cy}px;transform:translate(${x-cx}px,${y-cy}px)`;
+  el.innerHTML=`<div class="pill-inner ${s.cls}">${s.label}</div>`;
+  wrap.appendChild(el);
+});
+
+// Slow orbit animation
+let t=0;
+function animOrbit(){
+  t+=0.003;
+  skills.forEach((s,i)=>{
+    const el=wrap.querySelectorAll('.orbit-pill')[i];
+    const rad=radii[s.r];
+    const dir=s.r===2?-1:1;
+    const a=(s.angle*(Math.PI/180))+(t*dir*(0.5+s.r*0.2));
+    const x=rad*Math.cos(a);
+    const y=rad*Math.sin(a);
+    el.style.transform=`translate(${x}px,${y}px) translate(-50%,-50%)`;
+  });
+  requestAnimationFrame(animOrbit);
+}
+animOrbit();
+
+// ── FILTER ──
+function filterWork(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.video-card').forEach(c=>{
+    if(cat==='all'||c.dataset.cat===cat){
+      c.style.display='';
+    }else{
+      c.style.display='none';
+    }
+  });
+}
+
+// ── LIGHTBOX ──
+const lb=document.getElementById('lightbox');
+const lbf=document.getElementById('lb-frame');
+function openLightbox(url,orient){
+  lbf.src=url;
+  lb.className='open'+(orient==='v'?' vertical':'');
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  lb.className='';
+  lbf.src='';
+  document.body.style.overflow='';
+}
+lb.addEventListener('click',e=>{if(e.target===lb)closeLightbox()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
+
+// ── REVEAL ──
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// ── MAGNETIC TILT on video cards ──
+document.querySelectorAll('.video-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width-.5;
+    const y=(e.clientY-r.top)/r.height-.5;
+    card.style.transform=`scale(1.01) rotateY(${x*8}deg) rotateX(${-y*8}deg)`;
+    card.style.transition='transform .05s';
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='';
+    card.style.transition='transform .4s ease';
+  });
+});
+</script>
+</body>
+</html>
